@@ -1,4 +1,5 @@
 package LDA;
+import java.io.File;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -7,13 +8,14 @@ public class BasicLDA {
 	static int[] corpusConstants;
 
 	public static void main(String[] args) {
+		String dir = System.getProperty("user.dir") + File.separator;
 		
 		System.out.println(java.lang.Runtime.getRuntime().maxMemory());
 		System.out.print("Source file for corpus (in LDA dir, omit .txt extension): ");
 		Scanner keyboard = new Scanner(System.in);
 		String userInput = keyboard.nextLine();
-		String inPath = "/Users/tunderwood/LDA/" + userInput + ".txt";
-		String outPath = "/Users/tunderwood/LDA/" + userInput + "Model.txt";
+		String inPath = dir + userInput + ".txt";
+		String outPath = dir + userInput + "Model.txt";
 		
 		System.out.print("Number of topics? ");
 		userInput = keyboard.nextLine();
@@ -24,8 +26,8 @@ public class BasicLDA {
 		int iterations = Integer.parseInt(userInput);
 		
 		SparseTable corpus = new SparseTable(inPath);
-		corpus.exportWords("/Users/tunderwood/LDA/Words.txt");
-		corpus.exportDocs("/Users/tunderwood/LDA/DocIDs.txt");
+		corpus.exportWords(dir + "Words.txt");
+		corpus.exportDocs(dir + "DocIDs.txt");
 		corpus.shuffle();
 		
 		corpusConstants = corpus.constants();
@@ -44,7 +46,7 @@ public class BasicLDA {
 		}
 		
 		Gibbs sampler = new Gibbs(corpus.wordArray(), corpus.docArray(), randomTopics, corpus.timeline(), parameters);
-		sampler.exportVinT("/Users/tunderwood/LDA/Vint.txt");
+		sampler.exportVinT(dir + "Vint.txt");
 		
 		double perplexity = 0;
 		System.out.println("Begin iterations.");
@@ -56,14 +58,14 @@ public class BasicLDA {
 			// sampler.exportTimeline(cyclePath);
 			if (i % 20 == 1) {
 				corpus.exportTopics(outPath, sampler.topics(100));
-				sampler.exportKL("/Users/tunderwood/LDA/KLdivergence.txt");
-				sampler.exportTinD("/Users/tunderwood/LDA/ThetaDistrib.txt");
+				sampler.exportKL(dir + "KLdivergence.txt");
+				sampler.exportTinD(dir + "ThetaDistrib.txt");
 			}
 		}
 		
 		corpus.exportTopics(outPath, sampler.topics(100));
-		sampler.exportKL("/Users/tunderwood/LDA/KLdivergence.txt");
-		sampler.exportTinD("/Users/tunderwood/LDA/ThetaDistrib.txt");
+		sampler.exportKL(dir + "KLdivergence.txt");
+		sampler.exportTinD(dir + "ThetaDistrib.txt");
 		
 	}
 

@@ -39,7 +39,7 @@ public class BasicLDA {
 		int[] parameters = {D, V, N, Z, minTime, maxTime};
 		System.out.println("D " + D + " V " + V + " N " + N + " Z " + Z + " min " + minTime + " max " + maxTime);
 		
-		Random randomize = new Random();
+		Random randomize = new Random(1);
 		int[] randomTopics = new int[N];
 		for (int i = 0; i < N; ++i) {
 			randomTopics[i] = randomize.nextInt(Z);

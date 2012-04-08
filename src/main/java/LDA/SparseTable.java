@@ -18,7 +18,7 @@ public class SparseTable {
 	int[] wordIDs;
 	int[] timestamps;
 	int[] wordCounts;
-	static Random randomize = new Random();
+	static Random randomize = new Random(2);
 
 	public SparseTable(String filePath) {
 		LineReader inFile = new LineReader(filePath);
